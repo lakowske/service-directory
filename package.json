@@ -1,0 +1,19 @@
+{
+  "name": "service-directory",
+  "version": "0.0.1",
+  "description": "maintains a map of services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Seth Lakowske",
+  "license": "GPLv2",
+  "dependencies": {
+    "JSONStream": "^1.0.3",
+    "http-methods": "^1.0.0"
+  },
+  "devDependencies": {
+    "freeport": "^1.0.4",
+    "tape": "^4.0.0"
+  }
+}

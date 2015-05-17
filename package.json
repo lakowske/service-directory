@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "maintains a map of services",
   "main": "index.js",
+  "bin": {
+      "register-service": "register-service.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

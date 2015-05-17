@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
  * (C) 2015 Seth Lakowske
  */
@@ -62,6 +64,10 @@ function server(directoryFile, directory) {
  * @param {Function} callback made when registered or an error if there was a problem.
  */
 function register(serverOpts, name, hostname, port, options, callback) {
+    if (typeof serverOpts === 'string') {
+        serverOpts = url.parse(serverOpts);
+    }
+
     serverOpts.method = 'POST';
 
     var req = http.request(serverOpts, function(res) {
@@ -80,6 +86,13 @@ function register(serverOpts, name, hostname, port, options, callback) {
     req.end();
 }
 
+/*
+ * Lookup service on directory server
+ *
+ * @param {Object} serverOpts used to make the http request to the server
+ * @param {String} name the name of the service to lookup
+ * @param {Function} callback made when a matching service is found.
+ */
 function lookup(serverOpts, name, callback) {
     if (typeof serverOpts === 'string') {
         var options = url.parse(serverOpts);
@@ -98,7 +111,21 @@ function lookup(serverOpts, name, callback) {
     req.end();
 }
 
+function remove(serverOpts, name, callback) {
+    if (typeof serverOpts === 'string') {
+        var options = url.parse(serverOpts);
+        serverOpts = options;
+    }
+    serverOpts.method = 'DELETE';
+    serverOpts.headers = {service : name}
+    var req = http.request(serverOpts, function(res) {
+        callback();
+    })
+
+    req.end();
+}
 
 module.exports.server   = server;
 module.exports.register = register;
+module.exports.remove   = remove;
 module.exports.lookup   = lookup;

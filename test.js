@@ -45,3 +45,17 @@ test('lookup service', function(t) {
         })
     })
 })
+
+test('remove service', function(t) {
+    freeport(function(er, port) {
+        var directory = {}
+        var server = registerTestService(port, directory, function(er) {
+            serviceDirectory.remove('http://localhost:' + port, 'testService', function() {
+                t.notOk(directory['testService']);
+                t.end();
+                server.close();
+            })
+        })
+    })
+
+})

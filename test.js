@@ -36,8 +36,9 @@ test('lookup service', function(t) {
     freeport(function(er, port) {
         var directory = {}
         var server = registerTestService(port, directory, function(er) {
-            serviceDirectory.lookup({host : 'localhost',port : port}, 'testService', function(service) {
-                t.ok(service);
+            serviceDirectory.lookup('http://localhost:' + port, 'testService', function(service) {
+                console.log(JSON.stringify(service));
+                t.ok(service['testService']);
                 t.end();
                 server.close();
             })

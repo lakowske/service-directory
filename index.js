@@ -4,6 +4,7 @@
 
 var fs         = require('fs');
 var http       = require('http');
+var url        = require('url');
 var methods    = require('http-methods');
 var JSONStream = require('JSONStream');
 
@@ -26,7 +27,6 @@ function server(directoryFile, directory) {
             var jsonStream = JSONStream.parse();
             req.pipe(jsonStream);
             jsonStream.on('data', function(service) {
-                console.log('got service ' + JSON.stringify(service));
                 directory[service.name] = service;
                 fs.writeFileSync(directoryFile, JSON.stringify(directory));
             })
@@ -67,7 +67,6 @@ function register(serverOpts, name, hostname, port, options, callback) {
     var req = http.request(serverOpts, function(res) {
         if (res.statusCode === 200) {
             callback(null);
-            console.log('registered');
         } else {
             callback('error registering service');
         }
@@ -82,6 +81,10 @@ function register(serverOpts, name, hostname, port, options, callback) {
 }
 
 function lookup(serverOpts, name, callback) {
+    if (typeof serverOpts === 'string') {
+        var options = url.parse(serverOpts);
+        serverOpts = options;
+    }
     serverOpts.method = 'GET';
 
     var req = http.request(serverOpts, function(res) {

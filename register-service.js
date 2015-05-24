@@ -14,14 +14,12 @@ console.log(process.argv);
 var connectOptions = {}
 if (process.argv.length > 6) {
     var serviceDirectory = process.argv[2];
-    console.log(serviceDirectory);
     connectOptions = url.parse(serviceDirectory);
     var serviceName = process.argv[3];
     var hostName = process.argv[4];
     var port     = process.argv[5];
-    console.log(serviceName);
+    console.log('registering ' + serviceName + ' with ' + serviceDirectory);
     var usedArgs = process.argv.splice(0, 6);
-
     console.log(usedArgs);
     console.log(process.argv);
     register(connectOptions, serviceName, hostName, port, {}, function() {
@@ -34,6 +32,6 @@ if (process.argv.length > 6) {
     });
 
 } else {
-    console.log('Usage: register-service <service directory URL> <service name> <script path> [[[port] args ] ... ]');
+    console.log('Usage: register-service <service directory URL> <service name> <service host> <service port> <script path> [[[port] args ] ... ]');
 }
     
